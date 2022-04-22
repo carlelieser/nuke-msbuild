@@ -1,0 +1,21 @@
+{
+  "name": "nuke-msbuild",
+  "version": "1.0.2",
+  "description": "Nuke all active MSBuild processes with a simple command.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "format": "prettier ./src/* --write"
+  },
+  "keywords": ["msbuild", "windows"],
+  "author": "Carlos E. Santos",
+  "bin": {
+    "nuke-msbuild": "./dist/index.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "prettier": "^2.6.2"
+  }
+}
