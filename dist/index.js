@@ -75,15 +75,16 @@ const rowAsColumns = (row) => getColumnsFromRow(row);
 const getProcessListFromText = (text) => {
     const sanitized = text.substring(text.lastIndexOf("="), text.length - 1);
     const rows = sanitized.split("\n");
-    return rows
-        .map(rowAsColumns)
-        .map(columnsAsProcess);
+    return rows.map(rowAsColumns).map(columnsAsProcess);
 };
 exec("tasklist", (err, stdout, stderr) => {
     if (err)
         console.log("There was an error getting task list.");
     const processes = getProcessListFromText(stdout);
-    const MSBuildProcesses = processes.filter(({ name }) => name.toLowerCase().includes("msbuild"));
+    const MSBuildProcesses = processes.filter((process) => {
+        if (process?.name)
+            return process.name?.toLowerCase().includes("msbuild");
+    });
     if (!MSBuildProcesses.length)
         console.log("No MSBuild processes currently running.");
     MSBuildProcesses.forEach(({ pid, name }) => {
