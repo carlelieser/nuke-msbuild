@@ -85,7 +85,7 @@ const matchTextGroups = (source: string, pattern: string): Array<string> => {
             .filter(({ id }) => id === target)
             .map(({ data }) => data)
             .join("")
-            .trim(),
+            .trim()
     );
 };
 
@@ -110,18 +110,17 @@ const rowAsColumns = (row: string) => getColumnsFromRow(row);
 const getProcessListFromText = (text: string): Array<Process> => {
     const sanitized = text.substring(text.lastIndexOf("="), text.length - 1);
     const rows = sanitized.split("\n");
-    return rows
-        .map(rowAsColumns)
-        .map(columnsAsProcess);
+    return rows.map(rowAsColumns).map(columnsAsProcess);
 };
 
 exec("tasklist", (err, stdout, stderr) => {
     if (err) console.log("There was an error getting task list.");
 
     const processes = getProcessListFromText(stdout);
-    const MSBuildProcesses = processes.filter(({ name }) =>
-        name.toLowerCase().includes("msbuild"),
-    );
+    const MSBuildProcesses = processes.filter((process) => {
+        if (process?.name)
+            return process.name?.toLowerCase().includes("msbuild");
+    });
 
     if (!MSBuildProcesses.length)
         console.log("No MSBuild processes currently running.");
