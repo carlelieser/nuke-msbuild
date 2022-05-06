@@ -1,8 +1,11 @@
 {
   "name": "nuke-msbuild",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Nuke all active MSBuild processes with a simple command.",
   "main": "./dist/index.js",
+  "os": [
+    "win32"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
