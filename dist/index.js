@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 const exec = require("child_process").exec;
+const processConfig = {
+    cwd: "C:/WINDOWS/system32"
+};
 const getEmptySpacesUntilNextCharacter = (source, start) => {
     const chars = source.split("");
     const target = chars.slice(start);
@@ -43,7 +46,7 @@ const matchTextGroups = (source, pattern) => {
                 currentSettingIndex++;
         const group = {
             id: currentGroupIndex,
-            data: char,
+            data: char
         };
         groups.push(group);
         prevGroupIndex = Number(currentGroupIndex);
@@ -66,9 +69,9 @@ const columnsAsProcess = (columns) => {
         name: columns[0],
         session: {
             number: Number(columns[3]),
-            name: columns[2],
+            name: columns[2]
         },
-        memory: columns[4],
+        memory: columns[4]
     };
 };
 const rowAsColumns = (row) => getColumnsFromRow(row);
@@ -77,7 +80,7 @@ const getProcessListFromText = (text) => {
     const rows = sanitized.split("\n");
     return rows.map(rowAsColumns).map(columnsAsProcess);
 };
-exec("tasklist", (err, stdout, stderr) => {
+exec("tasklist", processConfig, (err, stdout, stderr) => {
     if (err)
         console.log("There was an error getting task list.");
     const processes = getProcessListFromText(stdout);
@@ -88,7 +91,7 @@ exec("tasklist", (err, stdout, stderr) => {
     if (!MSBuildProcesses.length)
         console.log("No MSBuild processes currently running.");
     MSBuildProcesses.forEach(({ pid, name }) => {
-        exec(`taskkill /F /PID ${pid}`, (err, stdout, stderr) => {
+        exec(`taskkill /F /PID ${pid}`, processConfig, (err, stdout, stderr) => {
             if (err) {
                 console.log(`Failed to destroy MSBuild process: ${pid}`);
                 return;
