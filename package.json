@@ -1,6 +1,6 @@
 {
   "name": "nuke-msbuild",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Nuke all active MSBuild processes with a simple command.",
   "main": "./dist/index.js",
   "scripts": {
